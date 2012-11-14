@@ -21,11 +21,46 @@ bool BST<T>::find(T v) {
 
 template <typename T>
 void BST<T>::insert(T v) {
-  
+  Node<T>* newNode = new Node<T>(v);
+  Node<T>** curr = &root;
+  Node<T>* critNode;
+  bool critNodeFound = false;
+  while (*curr != 0) {
+    if ((*curr)->getBalance() != 0) {
+      critNodeFound = true;
+      critNode = (*curr);
+    }
+    if (v < (*curr)->getValue()) {
+      curr = &((*curr)->getLeftChild());
+    } else if (v > (*curr)->getValue()) {
+      curr = &((*curr)->getRightChild());
+    } else return;
+  } 
+  *curr = newNode;
+  Node<T>* critNodeChild;
+  Node<T>* node;
+  int d1, d2, d3;
+  if (critNodeFound == false) {
+    node = root;
+  } else {
+    if (v < critNode->getValue()) {
+      d1 = -1;
+      critNodeChild = critNode->getLeftChild();
+    } else if (v > critNode->getValue()){
+      d1 = +1;
+      critNodeChild = critNode->getRightChild();
+    } else {
+      d1 = 0;
+      critNodeChild = critNode;
+    }
+    if (critNode->getBalance() != d1) {
+
+    }
+  }
 }
 
 template <typename T>
-void BST<T>::remove(T v) {  // using in-rder successor
+void BST<T>::remove(T v) {  // using in-order successor
   Node<T>** curr = &root;
   while(curr != 0 && (*curr)->getValue() != v) {
     if(v > (*curr)->getValue())
