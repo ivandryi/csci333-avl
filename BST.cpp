@@ -29,6 +29,7 @@ void BST<T>::insert(T v) {
     if ((*curr)->getBalance() != 0) {
       critNodeFound = true;
       critNode = (*curr);
+      std::cout<<critNode->getValue() << "hello"<<std::endl;
     }
     if (v < (*curr)->getValue()) {
       curr = &((*curr)->getLeftChild());
@@ -40,7 +41,7 @@ void BST<T>::insert(T v) {
   Node<T>* critNodeChild;
   Node<T>* critNodeChildChild;
   Node<T>* node;
-  int d1, d2; //d3;
+  int d1, d2, d3;
   if (critNodeFound == false) {
     node = root;
   } else {
@@ -71,11 +72,54 @@ void BST<T>::insert(T v) {
       if (d2 == d1) {
 	critNode->setBalance(0);
 	node = critNodeChildChild;
-	rotate(critNode, -d1);
+	std::cout << "needs rotation" << critNode->getBalance() << std::endl;
+	Node<T>* curr = critNode->getRightChild();
+	critNode->setRightChild(*(curr->getLeftChild()));
+	curr->setRightChild(*critNode);
+	//rotate(critNode, -d1);
       } else {
-
+	if (v < critNodeChildChild->getValue()) {
+	  d3 = -1;
+	  node = critNodeChildChild->getLeftChild();
+	} else if (v > critNodeChildChild->getValue()) {
+	  d3 = 1;
+	  node = critNodeChildChild->getRightChild();
+	} else {
+	  d3 = 0;
+	  node = critNodeChildChild;
+	}
+	if (d3 == d2) {
+	  critNode->setBalance(0);
+	  critNodeChild->setBalance(d1);
+	} else if (d3 == -d2) {
+	  critNode->setBalance(d2);
+	} else {
+	  critNode->setBalance(0);
+	}
+	rotate(critNodeChild, -d2);
+	rotate(critNode, -d1);
       }
     }
+  }
+  while (node->getValue() != v) {
+    if (v < node->getValue()) {
+      node->setBalance(-1);
+    std::cout<<node->getBalance()<<std::endl;
+    std::cout<<node->getValue()<<std::endl;
+      node = node->getLeftChild();
+    } else if (v > node->getValue()) {
+      node->setBalance(1);
+    std::cout<<node->getBalance()<<std::endl;
+    std::cout<<node->getValue()<<std::endl;
+      node = node->getRightChild();
+    } else {
+      node->setBalance(0);
+    std::cout<<node->getBalance()<<std::endl;
+    std::cout<<node->getValue()<<std::endl;
+      node = node;
+    }
+    std::cout<<node->getBalance()<<std::endl;
+    std::cout<<node->getValue()<<std::endl;
   }
 }
 
