@@ -114,8 +114,16 @@ void BST<T>::remove(T v) {  // using in-order successor
 
 template<typename T>
 void BST<T>::rotate(Node<T>* t, int d) {
-  t = 0;
-  d = 0;  
+  Node<T>* curr;
+  if (d == -1 ) {  // rotate left
+    curr = t->getRightChild();
+    t->setRightChild(*(curr->getLeftChild()));
+    curr->setLeftChild(*t);
+  } else { // rotate right
+    curr = t->getLeftChild();
+    t->setLeftChild(*(curr->getRightChild()));
+    curr->setRightChild(*t);
+  }
 }
 
 template<typename T>
