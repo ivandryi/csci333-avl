@@ -10,6 +10,7 @@ class BST {
   Node<T>* root;
   void traversalPrint(Node<T>* root);
   void postOrderDelete(Node<T>* t);
+  void rotate(Node<T>* t, int d);
  public:
   BST<T>();
   ~BST<T>();

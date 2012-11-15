@@ -38,8 +38,9 @@ void BST<T>::insert(T v) {
   } 
   *curr = newNode;
   Node<T>* critNodeChild;
+  Node<T>* critNodeChildChild;
   Node<T>* node;
-  int d1, d2, d3;
+  int d1, d2; //d3;
   if (critNodeFound == false) {
     node = root;
   } else {
@@ -47,14 +48,33 @@ void BST<T>::insert(T v) {
       d1 = -1;
       critNodeChild = critNode->getLeftChild();
     } else if (v > critNode->getValue()){
-      d1 = +1;
+      d1 = 1;
       critNodeChild = critNode->getRightChild();
     } else {
       d1 = 0;
       critNodeChild = critNode;
     }
     if (critNode->getBalance() != d1) {
+      critNode->setBalance(0);
+      node = newNode;
+    } else {
+      if (v < critNodeChild->getValue()) {
+	d2 = -1;
+	critNodeChildChild = critNodeChild->getLeftChild();
+      } else if (v > critNodeChild->getValue()) {
+	d2 = 1;
+	critNodeChildChild = critNodeChild->getRightChild();
+      } else {
+	d2 = 0;
+	critNodeChildChild = critNodeChild;
+      }
+      if (d2 == d1) {
+	critNode->setBalance(0);
+	node = critNodeChildChild;
+	rotate(critNode, -d1);
+      } else {
 
+      }
     }
   }
 }
@@ -92,6 +112,11 @@ void BST<T>::remove(T v) {  // using in-order successor
   }
 }
 
+template<typename T>
+void BST<T>::rotate(Node<T>* t, int d) {
+  t = 0;
+  d = 0;  
+}
 
 template<typename T>
 void BST<T>::postOrderDelete(Node<T>* t) {
